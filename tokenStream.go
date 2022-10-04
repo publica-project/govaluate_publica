@@ -1,4 +1,4 @@
-package govaluate
+package govaluate_publica
 
 type tokenStream struct {
 	tokens      []ExpressionToken

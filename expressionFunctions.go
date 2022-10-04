@@ -1,4 +1,4 @@
-package govaluate
+package govaluate_publica
 
 /*
 	Represents a function that can be called from within an expression.

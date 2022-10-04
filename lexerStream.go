@@ -1,4 +1,4 @@
-package govaluate
+package govaluate_publica
 
 type lexerStream struct {
 	source   []rune

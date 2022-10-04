@@ -1,4 +1,4 @@
-package govaluate
+package govaluate_publica
 
 import (
 	"errors"
@@ -128,13 +128,13 @@ func NewEvaluableExpressionWithFunctions(expression string, functions map[string
 /*
 	Same as `Eval`, but automatically wraps a map of parameters into a `govalute.Parameters` structure.
 */
-func (this EvaluableExpression) Evaluate(parameters map[string]interface{}) (interface{}, error) {
+func (this EvaluableExpression) Evaluate(parameters []string) (interface{}, error) {
 
 	if parameters == nil {
 		return this.Eval(nil)
 	}
 
-	return this.Eval(MapParameters(parameters))
+	return this.Eval(parameters)
 }
 
 /*
@@ -148,22 +148,16 @@ func (this EvaluableExpression) Evaluate(parameters map[string]interface{}) (int
 	e.g., if the expression is "1 + 1", this will return 2.0.
 	e.g., if the expression is "foo + 1" and parameters contains "foo" = 2, this will return 3.0
 */
-func (this EvaluableExpression) Eval(parameters Parameters) (interface{}, error) {
+func (this EvaluableExpression) Eval(parameters []string) (interface{}, error) {
 
 	if this.evaluationStages == nil {
 		return nil, nil
 	}
 
-	if parameters != nil {
-		parameters = &sanitizedParameters{parameters}
-	} else {
-		parameters = DUMMY_PARAMETERS
-	}
-
 	return this.evaluateStage(this.evaluationStages, parameters)
 }
 
-func (this EvaluableExpression) evaluateStage(stage *evaluationStage, parameters Parameters) (interface{}, error) {
+func (this EvaluableExpression) evaluateStage(stage *evaluationStage, parameters []string) (interface{}, error) {
 
 	var left, right interface{}
 	var err error
